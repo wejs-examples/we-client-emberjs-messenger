@@ -1,0 +1,15 @@
+View<br>
+Name: {{model.room.name}}
+
+
+<div class="messages">
+  {{#each model.messages as |message|}}
+    {{message.text}}
+  {{/each}}
+</div>
+<div class="message-create">
+  <form>
+    <input type="text" name="text">
+    <button>Send</button>
+  </form>
+</div>

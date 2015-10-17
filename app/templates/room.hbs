@@ -1,0 +1,30 @@
+<div class="room-list">
+  <div class="room-header">
+  {{#link-to 'room'}}
+    Rooms
+  {{/link-to}}
+  {{#link-to 'contact'}}
+    Contacts
+  {{/link-to}}
+  </div>
+
+  <ul>
+  {{#each model.rooms as |room|}}
+    <li>
+      {{#link-to 'room.view' room.id}}
+        Name: {{room.name}}
+      {{/link-to}}
+    </li>
+  {{/each}}
+  </ul>
+</div>
+
+<div class="room.view">
+  <div class="room-view-header">
+  {{#link-to 'room'}}
+    back
+  {{/link-to}}
+  </div>
+
+  {{outlet}}
+</div>
