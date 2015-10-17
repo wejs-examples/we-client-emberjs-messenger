@@ -1,11 +1,7 @@
 import DS from 'ember-data';
 
 export default DS.Model.extend({
-  fromId: DS.belongsTo('user', {
-    async: true
-  }),
-
-  toId: DS.belongsTo('user', {
+  creator: DS.belongsTo('user', {
     async: true
   }),
   roomId: DS.belongsTo('room', {

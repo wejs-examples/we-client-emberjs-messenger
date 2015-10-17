@@ -5,7 +5,8 @@ import config from './config/environment';
 
 Ember.$.ajaxSetup({
   headers: {
-    'Authorization': "Bearer 3e091a8fe2ef60a68cc1debf11796262a64d572cdfb1b7d6bc"
+    'Authorization': 'Bearer ad4f00c7bde86ca7887ecd1316f292e822dce775aba6697b9f',
+    'Accept': 'application/json'
   }
 });
 
