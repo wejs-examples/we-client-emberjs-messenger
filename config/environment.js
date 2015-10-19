@@ -53,5 +53,39 @@ module.exports = function(environment) {
 
   }
 
+  ENV['simple-auth'] = {
+    authorizer: 'simple-auth-authorizer:token'
+  };
+
+  ENV['simple-auth-token'] = {
+    serverTokenEndpoint: 'http://localhost:4000/auth/login-for-token',
+    identificationField: 'email',
+    passwordField: 'password',
+    tokenPropertyName: 'token',
+    authorizationPrefix: 'Bearer ',
+    authorizationHeaderName: 'Authorization',
+    headers: {},
+
+    // refreshAccessTokens: true,
+    // timeFactor: 1,
+    // refreshLeeway: 300 // Refresh the token 5 minutes (300s) before it expires.
+  };
+
+  // // avaible configs
+  // ENV['simple-auth-token'] = {
+  //   serverTokenEndpoint: '/api-token-auth/',
+  //   identificationField: 'username',
+  //   passwordField: 'password',
+  //   tokenPropertyName: 'token',
+  //   authorizationPrefix: 'Bearer ',
+  //   authorizationHeaderName: 'Authorization',
+  //   headers: {},
+  //   refreshAccessTokens: true,
+  //   serverTokenRefreshEndpoint: '/api-token-refresh/',
+  //   tokenExpireName: 'exp',
+  //   refreshLeeway: 0,
+  //   timeFactor: 1  // example - set to "1000" to convert incoming seconds to milliseconds.
+  // };
+
   return ENV;
 };

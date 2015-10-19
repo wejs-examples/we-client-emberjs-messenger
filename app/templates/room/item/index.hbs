@@ -1,0 +1,26 @@
+<div class="room-view">
+  <div class="room-view-header">
+    {{#link-to 'room'}}Back{{/link-to}}
+
+    {{#if model.contact}}
+      TODO!
+    {{else}}
+      {{model.room.name}}
+    {{/if}}
+
+    {{#link-to 'room.item.edit' model.room.id}}Edit{{/link-to}}
+
+  </div>
+</div>
+
+<div class="messages">
+<ul>
+  {{render 'messages' model.messages}}
+</ul>
+</div>
+<div class="message-create">
+  <form {{action "sendMessage" on="submit"}}>
+    {{input value=model.newText type="text"}}
+    <button type="submit">Send</button>
+  </form>
+</div>

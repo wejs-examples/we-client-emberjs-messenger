@@ -1,28 +1,29 @@
 import Ember from 'ember';
+import ApplicationRouteMixin from 'ember-simple-auth/mixins/application-route-mixin';
 
-export default Ember.Route.extend({
-  auth: Ember.inject.service('auth'),
+export default Ember.Route.extend(ApplicationRouteMixin, {
+  session: Ember.inject.service('session'),
   weMessenger: Ember.inject.service('weMessenger'),
 
-  beforeModel: function() {
-    var self = this;
-    var Auth = this.get('auth');
-    var WeMessenger = this.get('weMessenger');
+  onlyAuthenticated: function() {
+    var token = Ember.get(this, 'session.session.authenticated.access_token');
 
-    return Ember.RSVP.hash({
-      // get current user
-      currentUser: Ember.$.getJSON( WeMessenger.options.accounts + '/account' )
-      .done(function afterLoadCurrentUser(data) {
-        if (data.user) {
-          if (data.user.length) {
-            Auth.set('currentUser', self.store.push('user', data.user[0]));
-          } else {
-            Auth.set('currentUser', self.store.push('user', data.user));
-          }
+    if (token) {
+      Ember.$.ajaxSetup({
+        headers: {
+          Authorization: 'Bearer '+ token
         }
-      }).fail(function (data) {
-        Ember.Logger.error('Error on get current user data' , data);
-      })
-    });
+      });
+    } else {
+      Ember.$.ajaxSetup({
+        Authorization: null
+      });
+    }
+  }.observes('session.isAuthenticated'),
+
+  actions: {
+    invalidateSession: function() {
+      this.get('session').invalidate();
+    }
   }
 });

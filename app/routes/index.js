@@ -1,12 +1,10 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  auth: Ember.inject.service('auth'),
+  session: Ember.inject.service('session'),
 
   beforeModel: function() {
-    var auth = this.get('auth');
-
-    if (auth.get('isAuthenticated')) {
+    if (Ember.get(this, 'session.isAuthenticated')) {
       this.transitionTo('room');
     } else {
       this.transitionTo('login');

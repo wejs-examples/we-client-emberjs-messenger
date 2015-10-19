@@ -1,0 +1,11 @@
+<form {{action 'save' on='submit'}}>
+  <div class="form-group">
+    <label for="name">Name</label>
+    {{input value=model.name placeholder='Room name' class='form-control'}}
+  </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    {{input value=model.description placeholder='Room description' class='form-control'}}
+  </div>
+  <button type="submit" class="btn btn-default">Save</button>
+</form>

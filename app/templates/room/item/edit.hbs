@@ -1,0 +1,11 @@
+<div class="room-view">
+  <div class="room-view-header">
+    {{#link-to 'room.item' model.room.id}}Back{{/link-to}}
+
+    {{#if model.contact}}
+      TODO!
+    {{else}}
+      {{model.room.name}}
+    {{/if}}
+  </div>
+</div>

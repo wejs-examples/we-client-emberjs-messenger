@@ -1,5 +1,7 @@
-{{#if auth.currentUser.id}}
-  {{outlet}}
+{{#if session.isAuthenticated}}
+  <a href="#" {{action 'invalidateSession'}}>Logout</a>
 {{else}}
-  off
+  {{#link-to 'login'}}Login{{/link-to}}
 {{/if}}
+
+{{outlet}}

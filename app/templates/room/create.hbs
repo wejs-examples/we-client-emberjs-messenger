@@ -1,0 +1,15 @@
+<div class="room-list">
+  <div class="room-header">
+    {{#link-to 'room'}}
+      Rooms
+    {{/link-to}}
+    {{#link-to 'contact'}}
+      Contacts
+    {{/link-to}}
+    {{#link-to 'room.create'}}
+      Create room
+    {{/link-to}}
+  </div>
+</div>
+
+{{render 'room/form' room}}

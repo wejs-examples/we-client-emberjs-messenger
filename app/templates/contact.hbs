@@ -1,1 +1,25 @@
+<div class="contact-list">
+  <div class="contact-header">
+  {{#link-to 'room'}}
+    Rooms
+  {{/link-to}}
+  {{#link-to 'contact'}}
+    Contacts
+  {{/link-to}}
+  {{#link-to 'room.create'}}
+    Create room
+  {{/link-to}}
+  </div>
+
+  <ul>
+  {{#each model.contacts as |contact|}}
+    <li>
+      {{#link-to 'contact.view' contact.id}}
+        Name: {{contact.name}}
+      {{/link-to}}
+    </li>
+  {{/each}}
+  </ul>
+</div>
+
 {{outlet}}

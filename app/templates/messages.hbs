@@ -1,13 +1,15 @@
 {{#each}}
   <div class="{{messageClass}}">
     {{!-- <span class="avatar-small">{{we-avatar userId=fromId.id}}</span> --}}
-    <span class="avatar-small cursor-pointer" {{action 'openProfile' creatorId}}>
-      {{user-avatar user=creator imgWidth='50'}}
+    <span class="avatar-small cursor-pointer">
+      {{#link-to 'user.view' creator.id}}
+        {{user-avatar user=creator imgWidth='50'}}
+      {{/link-to}}
     </span>
     <span class="message">{{{content}}}</span>
     <div class="message-footer">
       <span class="createdAt">
-        {{{format-date createdAt}}}
+        {{moment-from-now createdAt interval=2000}}
       </span>
     </div>
   </div>
