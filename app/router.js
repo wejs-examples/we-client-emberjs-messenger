@@ -12,7 +12,9 @@ Router.map(function() {
     });
   });
   this.route('contact', {}, function(){
-    this.route('view', { path: ':id' }, function() {
+    this.route('request');
+
+    this.route('item', { path: ':id' }, function() {
 
     });
   });

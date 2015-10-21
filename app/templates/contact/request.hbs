@@ -1,0 +1,34 @@
+<div class="contact-list">
+  <div class="header">
+    {{#link-to 'contact'}}
+      Back
+    {{/link-to}}
+  </div>
+
+  {{#if requestSend}}
+    <p>request send</p>
+    <p>
+      {{#link-to 'contact'}}Done{{/link-to}}
+      <a href="#" {{action 'requestOther'}}>Request other</a>
+    </p>
+  {{else}}
+    <div>
+      {{select-2
+        placeholder="Type the user name or email"
+        value=model.userId
+        typeaheadSearchingText="Searching users"
+        typeaheadNoMatchesText="No user found for '%@'"
+        typeaheadErrorText="Loading failed: %@"
+        optionValuePath="id"
+        optionDescriptionPath="text"
+        minimumInputLength=5
+        maximumInputLength=200
+        query="findNewContacts"
+      }}
+    </div>
+    <form {{action 'requestContact' on='submit'}}>
+      <button>Add</button>
+    </form>
+
+  {{/if}}
+</div>
