@@ -17,4 +17,7 @@ var App = Ember.Application.extend({
 
 loadInitializers(App, config.modulePrefix);
 
+we.messenger.host = 'http://localhost:4000';
+we.messenger.init();
+
 export default App;

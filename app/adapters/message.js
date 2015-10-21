@@ -1,14 +1,21 @@
+import ApplicationAdapter from './application';
 import Ember from 'ember';
-import DS from 'ember-data';
-import DataAdapterMixin from 'ember-simple-auth/mixins/data-adapter-mixin';
 
-export default DS.RESTAdapter.extend(DataAdapterMixin, {
-  authorizer: 'authorizer:oauth2',
+/**
+ * Message adapter
+ * Overryde default methods for suport urls like /room/:roomId/message
+ */
+export default ApplicationAdapter.extend({
+  routing: Ember.inject.service('-routing'),
+  router: Ember.computed.alias('routing.router'),
 
-  host: 'http://localhost:4000',
-  pathForType: function(type) {
-    var camelized = Ember.String.camelize(type);
-    return Ember.String.singularize(camelized);
+  /**
+   * Return current roomId
+   * @return {Number} the roomId
+   */
+  getRoomId: function() {
+    var params = this.get('router.targetState.routerJsState.params');
+    return params['room.item'].id;
   },
 
   /**
@@ -19,9 +26,9 @@ export default DS.RESTAdapter.extend(DataAdapterMixin, {
     @param {DS.Snapshot} snapshot
     @return {Promise} promise
   */
-  findRecord: function findRecord(store, type, id) {
+  findRecord: function(store, type, id) {
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      we.messenger[type.modelName].findOne(id).then(function(data) {
+      we.messenger.message.findOne(id).then(function(data) {
         Ember.run(null, resolve, data);
       }, function(jqXHR) {
         jqXHR.then = null; // tame jQuery's ill mannered promises
@@ -29,7 +36,6 @@ export default DS.RESTAdapter.extend(DataAdapterMixin, {
       });
     });
   },
-
   /**
     @method findAll
     @param {DS.Store} store
@@ -38,9 +44,11 @@ export default DS.RESTAdapter.extend(DataAdapterMixin, {
     @param {DS.SnapshotRecordArray} snapshotRecordArray
     @return {Promise} promise
   */
-  findAll: function findAll(store, type) {
+  findAll: function(store, type, sinceToken, snapshotRecordArray) {
+    console.log('>>', snapshotRecordArray)
+    var roomId = this.getRoomId();
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      we.messenger[type.modelName].findAll().then(function (data) {
+      we.messenger.message.findAll(roomId).then(function(data) {
         Ember.run(null, resolve, data);
       }, function(jqXHR) {
         jqXHR.then = null; // tame jQuery's ill mannered promises
@@ -57,9 +65,11 @@ export default DS.RESTAdapter.extend(DataAdapterMixin, {
     @param {DS.AdapterPopulatedRecordArray} recordArray
     @return {Promise} promise
   */
-  query: function query(store, type, query) {
-    return new Ember.RSVP.Promise(function (resolve, reject) {
-      we.messenger[type.modelName].findAll({
+  query: function(store, type, query) {
+    var roomId = (query.roomId || this.getRoomId());
+
+    return new Ember.RSVP.Promise(function(resolve, reject) {
+      we.messenger.message.findAll(roomId, {
         data: query
       }).then(function(data) {
         Ember.run(null, resolve, data);
@@ -70,7 +80,6 @@ export default DS.RESTAdapter.extend(DataAdapterMixin, {
     });
   },
 
-
   /**
     @method createRecord
     @param {DS.Store} store
@@ -78,11 +87,14 @@ export default DS.RESTAdapter.extend(DataAdapterMixin, {
     @param {DS.Snapshot} snapshot
     @return {Promise} promise
   */
-  createRecord: function createRecord(store, type, snapshot) {
+  createRecord: function(store, type, snapshot) {
+    var roomId = this.getRoomId();
     var data = this.serialize(snapshot, { includeId: false });
 
+    data.roomId = roomId;
+
     return new Ember.RSVP.Promise(function(resolve, reject) {
-      we.messenger[type.modelName].create({
+      we.messenger.message.create(roomId, {
         data: data
       }).then(function(data) {
         Ember.run(null, resolve, data);
@@ -91,29 +103,5 @@ export default DS.RESTAdapter.extend(DataAdapterMixin, {
         Ember.run(null, reject, jqXHR);
       });
     });
-  },
-
-  /**
-    @method updateRecord
-    @param {DS.Store} store
-    @param {DS.Model} type   the DS.Model class of the record
-    @param {DS.Snapshot} snapshot
-    @return {Promise} promise
-  */
-  updateRecord: function updateRecord(store, type, snapshot) {
-    var data = this.serialize(snapshot, { includeId: true });
-    var id = snapshot.id;
-
-    return new Ember.RSVP.Promise(function(resolve, reject) {
-      we.messenger[type.modelName].update(id, {
-        data: data
-      }).then(function updateRecordSuccess(data) {
-        Ember.run(null, resolve, data);
-      }, function updateRecordError(jqXHR) {
-        jqXHR.then = null; // tame jQuery's ill mannered promises
-        Ember.run(null, reject, jqXHR);
-      });
-    });
   }
-
 });
