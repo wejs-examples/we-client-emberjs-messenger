@@ -4,7 +4,7 @@ export default DS.Model.extend({
   creator: DS.belongsTo('user', {
     async: true
   }),
-  roomId: DS.belongsTo('room', {
+  room: DS.belongsTo('room', {
     async: true
   }),
 
