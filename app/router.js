@@ -7,16 +7,12 @@ var Router = Ember.Router.extend({
 
 Router.map(function() {
   this.route('user', {}, function(){
-    this.route('view', { path: ':id' }, function() {
-
-    });
+    this.route('view', { path: ':id' });
   });
   this.route('contact', {}, function(){
     this.route('request');
 
-    this.route('item', { path: ':id' }, function() {
-
-    });
+    this.route('item', { path: ':id' });
   });
   this.route('message', {});
   this.route('image', {});
@@ -26,12 +22,13 @@ Router.map(function() {
     this.route('create', { path: 'create' });
 
     this.route('item', { path: ':id' }, function() {
-      this.route('edit', { path: 'edit' }, function() {
-
-      });
+      this.route('edit', { path: 'edit' });
     });
   });
-  // this.route('room', {});
+
+  this.route('notification', function(){
+    this.route('read');
+  });
 });
 
 export default Router;

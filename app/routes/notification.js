@@ -2,9 +2,11 @@ import Ember from 'ember';
 import AuthenticatedRouteMixin from '../mixins/authenticated-route';
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
-  model: function() {
+  notification: Ember.inject.service('notification'),
+
+  model: function model() {
     return Ember.RSVP.hash({
-      rooms: this.store.find('room')
+      notifications: this.get('notification.notificationsUnread')
     });
   }
 });

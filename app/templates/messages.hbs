@@ -1,9 +1,8 @@
 {{#each}}
   <div class="{{messageClass}}">
-    {{!-- <span class="avatar-small">{{we-avatar userId=fromId.id}}</span> --}}
     <span class="avatar-small cursor-pointer">
       {{#link-to 'user.view' creator.id}}
-        {{user-avatar user=creator imgWidth='50'}}
+        {{user-avatar user=creator imgWidth='40'}}
       {{/link-to}}
     </span>
     <span class="message">{{{content}}}</span>

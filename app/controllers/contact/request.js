@@ -5,15 +5,19 @@ export default Ember.Controller.extend({
 
   actions: {
     findNewContacts: function (query, deferred){
-      this.store.find('user', { q: query.term })
-      .then(function (r){
-        deferred.resolve(r.map(function (u){
+      Ember.$.ajax({
+        type: 'GET',
+        url: we.messenger.host + '/api/v1/get-user-to-add',
+        cache: false,
+        data: { q: query.term }
+      }).then(function (r){
+        deferred.resolve(r.user.map(function (u){
           return {
             text: ( Ember.get(u, 'displayName') || Ember.get(u, 'username') ),
             id: u.id
           };
         }));
-      }, deferred.reject);
+      }).fail(deferred.reject);
     },
 
     requestContact: function() {

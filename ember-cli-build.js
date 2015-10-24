@@ -21,6 +21,7 @@ module.exports = function(defaults) {
 
 
   app.import('bower_components/we-lib-client-messenger/dist/we.messenger.js');
+  app.import('bower_components/socket.io-client/socket.io.js');
 
   return app.toTree();
 };

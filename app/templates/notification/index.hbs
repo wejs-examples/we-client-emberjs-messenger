@@ -1,0 +1,17 @@
+<div class="header">
+  <div class="header-menu">
+    {{#link-to 'index'}}Back{{/link-to}}
+  </div>
+</div>
+
+<div class="content">
+  <h4>Notifications</h4>
+  <ul>
+  {{#each model.notifications as |notification|}}
+    <li>
+      {{notification.title}} <br>
+      {{notification.text}}
+    </li>
+  {{/each}}
+  </ul>
+</div>

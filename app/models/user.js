@@ -48,5 +48,14 @@ export default DS.Model.extend({
   }),
   unreadMessages: DS.attr('number', {
     defaultValue: null
+  }),
+
+  contactFrom: DS.hasMany('contact',{
+    inverse: 'from',
+    async: true
+  }),
+  contactTo: DS.hasMany('contact',{
+    inverse: 'to',
+    async: true
   })
 });

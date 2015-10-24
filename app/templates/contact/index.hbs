@@ -8,16 +8,38 @@
     {{/link-to}}
   </div>
 
+  {{#if model.contactsPending}}
+    <div>
+      <h4>Pending</h4>
+      <ul>
+      {{#each model.contactsPending as |contact|}}
+        <li>
+          {{!-- {{#link-to 'user.item' contact.from}} --}}
+            {{user-avatar user=contact.from imgWidth='40'}} {{contact.from.displayName}}
+          {{!-- {{/link-to}} --}}
 
-  <ul>
-  {{#each model.contacts as |contact|}}
-    <li>
-      {{#link-to 'contact.item' contact.id}}
-        {{contact.id}} || Name: {{contact.name}}
-      {{/link-to}}
-    </li>
-  {{/each}}
-  </ul>
+          <a href="#" {{action 'acceptContact' contact.from.id contact}}>Accept</a>
+          <a href="#" {{action 'ignoreContact' contact.from.id contact}}>Ignore</a>
+        </li>
+      {{/each}}
+      </ul>
+    </div>
+  {{/if}}
+
+  <div>
+    <h4>Contacts</h4>
+    <ul>
+    {{#each model.contacts as |contact|}}
+      <li>
+        {{#link-to 'contact.item' contact.id}}
+          {{user-avatar user=contact.contactUser imgWidth='40'}} {{contact.contactUser.displayName}}
+        {{/link-to}}
+
+        Talk
+      </li>
+    {{/each}}
+    </ul>
+  </div>
 
   {{#link-to 'contact.request'}}
     Add contacts

@@ -5,17 +5,12 @@ export default DS.Model.extend({
   session: Ember.inject.service('session'),
 
   status: DS.attr('string', {
-    defaultValue: 'requested',
-    async: true
+    defaultValue: 'requested'
   }),
 
-  name: DS.attr('string', {
-    async: true
-  }),
+  name: DS.attr('string'),
 
-  user_id: DS.attr('number', {
-    async: true
-  }),
+  user_id: DS.attr('number'),
 
   // relationship
   // from: DS.attr('string'),
@@ -54,8 +49,8 @@ export default DS.Model.extend({
     var cid = this.get('session.session.authenticated.user.id');
 
     if(
-      this.get('from.id') !== cid &&
-      this.get('status') === 'requested'
+      this.get('from.id') != cid &&
+      this.get('status') == 'requested'
     ) {
       return 'requestsToYou';
     } else {
@@ -76,7 +71,7 @@ export default DS.Model.extend({
       return null;
     }
 
-    if( this.get('from.id') !== cid ) {
+    if( this.get('from.id') != cid ) {
       return this.get('from');
     } else {
       return this.get('to');
