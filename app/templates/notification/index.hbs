@@ -4,14 +4,32 @@
   </div>
 </div>
 
+{{#link-to 'notification'}}Un Read ({{model.notificator.unReadCount}}) {{/link-to}}
+{{#link-to 'notification.read'}}read{{/link-to}}
+
 <div class="content">
   <h4>Notifications</h4>
-  <ul>
-  {{#each model.notifications as |notification|}}
-    <li>
-      {{notification.title}} <br>
-      {{notification.text}}
-    </li>
-  {{/each}}
-  </ul>
+  <table>
+    <tbody>
+      {{#each model.notifications as |notification|}}
+        <tr>
+          <td>{{notification.title}} <br>
+            {{notification.text}}
+          </td>
+{{!--           <td>
+            {{#each notification.actions as |action|}}
+              |{{action.text}}|
+            {{/each}}
+          </td> --}}
+          <td>
+            {{#if notification.read}}
+              <button {{action 'setReadStatus' false notification}}>Un read</button>
+            {{else}}
+              <button {{action 'setReadStatus' true notification}}>Read</button>
+            {{/if}}
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
 </div>

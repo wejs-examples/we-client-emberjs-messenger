@@ -6,7 +6,27 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
   model: function model() {
     return Ember.RSVP.hash({
-      notifications: this.get('notification.notificationsUnread')
+      notifications: this.get('notification.notificationsUnread'),
+      notificator: this.get('notification')
     });
+  },
+
+  actions: {
+    setReadStatus: function (read, notification) {
+      var store = this.get('store');
+
+      if (read) {
+        this.get('notification')
+        .decrementProperty('unReadCount');
+      } else {
+        this.get('notification')
+        .incrementProperty('unReadCount');
+      }
+
+      we.messenger.notification.setReadStatus(notification.id, read)
+      .then(function (r){
+        store.pushPayload(r);
+      });
+    }
   }
 });

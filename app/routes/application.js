@@ -23,14 +23,16 @@ export default Ember.Route.extend(ApplicationRouteMixin, {
       });
     }
 
-    socketio.set('socket', window.io.connect(
+    window.io.socket = window.io.connect(
       we.messenger.host
-    ));
+    );
+
+    socketio.set('socket', window.io.socket);
 
     socketio.onConnectAuthenticated();
   }.observes('session.isAuthenticated'),
 
-  afterModel: function() {
+  afterModel: function afterModel() {
     var notification = this.get('notification');
     notification.checkIfHaveNewNotifications();
   },

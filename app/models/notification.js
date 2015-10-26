@@ -7,7 +7,7 @@ export default DS.Model.extend({
   title: DS.attr('string'),
   text: DS.attr('string'),
 
-  user_id: DS.attr('number'),
+  userId: DS.attr('number'),
 
   locale: DS.attr('string'),
 

@@ -32,9 +32,6 @@ export default Ember.Service.extend({
       self.since = new Date();
 
       if (r.notification && r.notification.length) {
-        // have notifications
-        console.log('>>new notifications found>>', r);
-
         self.get('store').pushPayload(r);
       }
 
@@ -49,6 +46,10 @@ export default Ember.Service.extend({
   init: function() {
     this._super();
     this.setNotificatioLists();
+
+    window.io.on('notification:update:read', function(data) {
+      console.log('notification:update:read',data);
+    });
   },
 
   setNotificatioLists: function() {
